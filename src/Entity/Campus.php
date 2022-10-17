@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\LieuRepository;
+use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=LieuRepository::class)
+ * @ORM\Entity(repositoryClass=CampusRepository::class)
  */
-class Lieu
+class Campus
 {
     /**
      * @ORM\Id
@@ -25,33 +25,18 @@ class Lieu
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus")
      */
-    private $rue;
+    private $participants;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $latitude;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $longitude;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $ville;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="siteOrganisateur")
      */
     private $sorties;
 
     public function __construct()
     {
+        $this->participants = new ArrayCollection();
         $this->sorties = new ArrayCollection();
     }
 
@@ -72,50 +57,32 @@ class Lieu
         return $this;
     }
 
-    public function getRue(): ?string
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
     {
-        return $this->rue;
+        return $this->participants;
     }
 
-    public function setRue(string $rue): self
+    public function addParticipant(Participant $participant): self
     {
-        $this->rue = $rue;
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->setCampus($this);
+        }
 
         return $this;
     }
 
-    public function getLatitude(): ?float
+    public function removeParticipant(Participant $participant): self
     {
-        return $this->latitude;
-    }
-
-    public function setLatitude(float $latitude): self
-    {
-        $this->latitude = $latitude;
-
-        return $this;
-    }
-
-    public function getLongitude(): ?float
-    {
-        return $this->longitude;
-    }
-
-    public function setLongitude(float $longitude): self
-    {
-        $this->longitude = $longitude;
-
-        return $this;
-    }
-
-    public function getVille(): ?Ville
-    {
-        return $this->ville;
-    }
-
-    public function setVille(?Ville $ville): self
-    {
-        $this->ville = $ville;
+        if ($this->participants->removeElement($participant)) {
+            // set the owning side to null (unless already changed)
+            if ($participant->getCampus() === $this) {
+                $participant->setCampus(null);
+            }
+        }
 
         return $this;
     }
@@ -132,7 +99,7 @@ class Lieu
     {
         if (!$this->sorties->contains($sorty)) {
             $this->sorties[] = $sorty;
-            $sorty->setLieu($this);
+            $sorty->setSiteOrganisateur($this);
         }
 
         return $this;
@@ -142,8 +109,8 @@ class Lieu
     {
         if ($this->sorties->removeElement($sorty)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getLieu() === $this) {
-                $sorty->setLieu(null);
+            if ($sorty->getSiteOrganisateur() === $this) {
+                $sorty->setSiteOrganisateur(null);
             }
         }
 
