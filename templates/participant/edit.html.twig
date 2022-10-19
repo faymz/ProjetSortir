@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Edit Participant</h1>
-
+    <img src="{{ asset('ressources/imgProfil/' ~ participant.image) }}" alt="{{ participant.image }}">
     {{ include('participant/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_participant_index') }}">back to list</a>
