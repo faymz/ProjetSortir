@@ -1,0 +1,18 @@
+<nav>
+    <div>
+        <img src="" alt="">
+    </div>
+    <div>
+        <ul>
+            <li><a href="{{ path('main_home') }}">accueil</a></li>
+            <li><a href="">Ville</a></li>
+            <li><a href="">Campus</a></li>
+            {% if app.user %}
+                <li><a href="{{ path('app_participant_show', {'id': app.user.id }) }}">Mon profil</a></li>
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

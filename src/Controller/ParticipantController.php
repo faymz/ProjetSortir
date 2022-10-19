@@ -65,6 +65,13 @@ class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('image')->getData();
+            if ($file)
+            {
+                $newFilename = $participant->getPseudo()."-".$participant->getId().".".$file->guessExtension();
+                $file->move($this->getParameter('upload_champ_entite_dir'), $newFilename);
+                $participant->setimage($newFilename);
+            }
             $participantRepository->add($participant, true);
 
             return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);

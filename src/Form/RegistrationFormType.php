@@ -72,7 +72,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => new NotBlank()
 
             ])
-            ->add('image')
+            /*->add('image')*/
         ;
 
     }
