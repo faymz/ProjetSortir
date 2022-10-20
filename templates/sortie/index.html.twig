@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie index{% endblock %}
+{% block title %}Liste sorties | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Sortie index</h1>
+    <h1>liste Sorties</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>DateHeureDebut</th>
                 <th>Duree</th>
@@ -22,7 +21,6 @@
         <tbody>
         {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sortie.duree ? sortie.duree|date('H:i:s') : '' }}</td>
@@ -31,17 +29,17 @@
                 <td>{{ sortie.infosSortie }}</td>
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                    <a href="{{ path('app_sortie_delete', {'id': sortie.id}) }}">Supprimer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="9">Sortie non enregistrée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_sortie_new') }}">Create new</a>
+    <a href="{{ path('app_sortie_new', {'id': app.user.id}) }}">Créer nouvelle sortie</a>
 {% endblock %}

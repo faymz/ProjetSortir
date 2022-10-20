@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,13 +28,18 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_sortie_new", methods={"GET", "POST"})
+     * @Route("/new/{id}", name="app_sortie_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, SortieRepository $sortieRepository): Response
+    public function new(int $id,Request $request, SortieRepository $sortieRepository,EtatRepository $etatRepository, ParticipantRepository $participantRepository): Response
     {
         $sortie = new Sortie();
+        $particiCrea = $participantRepository->find($id);
+        $etatSortie = $etatRepository->find(1);
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
+        $sortie->setOrganisateur($particiCrea);
+        $sortie->setSiteOrganisateur($particiCrea->getCampus());
+        $sortie->setEtat($etatSortie);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $sortieRepository->add($sortie, true);

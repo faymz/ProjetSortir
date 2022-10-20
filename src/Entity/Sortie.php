@@ -35,7 +35,7 @@ class Sortie
     private $duree;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $dateLimiteInscription;
 
@@ -48,6 +48,8 @@ class Sortie
      * @ORM\Column(type="text")
      */
     private $infosSortie;
+
+    private $ville;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -250,5 +252,21 @@ class Sortie
         $this->lieu = $lieu;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * @param mixed $ville
+     */
+    public function setVille($ville): void
+    {
+        $this->ville = $ville;
     }
 }

@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    {% if app.user %}
+    <div>
+        <button onclick="document.location='{{ path('app_sortie_new', {'id': app.user.id}) }}'" class="btn">Créer une sortie</button>
+    </div>
+    {% endif %}
 {% endblock %}
 
 {% block title %}

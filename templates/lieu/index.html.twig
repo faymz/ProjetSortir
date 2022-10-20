@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lieu index{% endblock %}
+{% block title %}Liste lieux | {{  parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Lieu index</h1>
+    <h1>Liste lieux</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Rue</th>
                 <th>Latitude</th>
@@ -19,23 +18,23 @@
         <tbody>
         {% for lieu in lieus %}
             <tr>
-                <td>{{ lieu.id }}</td>
                 <td>{{ lieu.nom }}</td>
                 <td>{{ lieu.rue }}</td>
                 <td>{{ lieu.latitude }}</td>
                 <td>{{ lieu.longitude }}</td>
                 <td>
-                    <a href="{{ path('app_lieu_show', {'id': lieu.id}) }}">show</a>
-                    <a href="{{ path('app_lieu_edit', {'id': lieu.id}) }}">edit</a>
+                    <a href="{{ path('app_lieu_edit', {'id': lieu.id}) }}">modifier</a>
+                    -
+                    <a href="{{ path('app_lieu_delete', {'id': lieu.id}) }}">supprimer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Echec d'enregistrement</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_lieu_new') }}">Create new</a>
+    <a href="{{ path('app_lieu_new') }}">Créer un nouveau lieu</a>
 {% endblock %}
