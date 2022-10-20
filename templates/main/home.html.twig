@@ -3,7 +3,7 @@
 {% block body %}
     {% if app.user %}
     <div>
-        <button onclick="document.location='{{ path('app_sortie_new', {'id': app.user.id}) }}'" class="btn">Créer une sortie</button>
+        <button onclick="document.location='{{ path('app_sortie_new') }}'" class="btn">Créer une sortie</button>
     </div>
     {% endif %}
 {% endblock %}

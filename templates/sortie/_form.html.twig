@@ -1,8 +1,54 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div>{{ form_row(form.nom) }}</div>
+    <div>{{ form_row(form.dateHeureDebut) }}</div>
+    <div>{{ form_row(form.dateLimiteInscription) }}</div>
+    <div>{{ form_row(form.nbInscriptionsMax) }}</div>
+    <div>{{ form_row(form.duree) }}</div>
+    <div>{{ form_row(form.infosSortie) }}</div>
     <div>
         <Label>Campus : </Label>
-        <label>{{ sortie.organisateur.campus.nom }}</label>
+        {{ sortie.organisateur.campus.nom }}
     </div>
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    <div>
+        {{form_row(form.ville) }}
+    </div>
+    <div>
+        {{ form_row(form.lieu) }}
+    </div>
+
+    <button class="btn" >{{ button_label|default('Enregistrer') }}</button>
+    <!--TODO modifier la redirection du bouton publier la sortie -->
+    <button class="btn" onclick="document.location='{{ path('main_home') }}'">{{ button_label|default('Publier la sortie') }}</button>
+    <button class="btn" onclick="document.location='{{ path('main_home') }}'">{{ button_label|default('annuler') }}</button>
 {{ form_end(form) }}
+
+{% block javascripts %}
+    <script>
+        window.onload = () => {
+            let ville = document.querySelector("#sortie_ville");
+
+            ville.addEventListener("change", function(){
+                let form = this.closest("form");
+                let data = this.name + "=" + this.value;
+
+                fetch(form.action, {
+                    method: form.getAttribute("method"),
+                    body: data,
+                    headers: {
+                        "content-type": "application/x-www-form-urlencoded; charset:utf-8"
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                     let content = document.createElement("html");
+                     content.innerHTML = html;
+                     let nouveauSelect = content.querySelector("#sortie_lieu");
+                     document.querySelector("#sortie_lieu").replaceWith(nouveauSelect);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            })
+        }
+    </script>
+{% endblock %}

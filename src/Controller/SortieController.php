@@ -28,12 +28,12 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/new/{id}", name="app_sortie_new", methods={"GET", "POST"})
+     * @Route("/new", name="app_sortie_new", methods={"GET", "POST"})
      */
-    public function new(int $id,Request $request, SortieRepository $sortieRepository,EtatRepository $etatRepository, ParticipantRepository $participantRepository): Response
+    public function new(Request $request, SortieRepository $sortieRepository,EtatRepository $etatRepository, ParticipantRepository $participantRepository): Response
     {
         $sortie = new Sortie();
-        $particiCrea = $participantRepository->find($id);
+        $particiCrea = $this->getUser();
         $etatSortie = $etatRepository->find(1);
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
