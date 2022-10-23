@@ -1,16 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie{% endblock %}
+{% block title %}Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
     <h1>Sortie</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
             <tr>
                 <th>Nom</th>
                 <td>{{ sortie.nom }}</td>
@@ -42,7 +38,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_sortie_index') }}">back to list</a>
+    <a type="btn " href="{{ path('app_sortie_index') }}">Retour Accueil</a>
 
     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
 

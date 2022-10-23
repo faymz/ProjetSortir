@@ -3,43 +3,65 @@
 {% block title %}Liste sorties | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>liste Sorties</h1>
 
-    <table class="table">
+    <h1>liste Sorties</h1>
+<div id="tableauListeSorties">
+    <table class="table-sm">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>DateHeureDebut</th>
-                <th>Duree</th>
-                <th>DateLimiteInscription</th>
-                <th>NbInscriptionsMax</th>
-                <th>InfosSortie</th>
-                <th>MotifAnnulation</th>
-                <th>actions</th>
+                <th scope="col">Nom de la sortie</th>
+                <th scope="col">Date de la sortie</th>
+                <th scope="col">Date Limite Inscription</th>
+                <th scope="col">Nombre de places</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Inscrit</th>
+                <th scope="col">Organisateur</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.duree ? sortie.duree|date('H:i:s') : '' }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.infosSortie }}</td>
-                <td>{{ sortie.motifAnnulation }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
                 <td>
-                    <a href="{{ path('app_sortie_edit') }}">Modifier</a>
-                    <a href="{{ path('app_sortie_delete', {'id': sortie.id}) }}">Supprimer</a>
+                    {% for inscrit in sortie.participantSortie %}
+                        {% if app.user ==  inscrit  %}
+                        <p>X</p>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ sortie.organisateur.pseudo }}</td>
+                <!--<td>{# {{ sortie.infosSortie }} #}</td>-->
+                <td>
+                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                    {% if sortie.participantSortie is empty %}
+                        <a href="{{ path('app_sortie_follow', {'id': sortie.id}) }}">S'inscrire</a>
+                    {% endif %}
+                    {% if sortie.participantSortie is not empty %}
+                        {% for inscrit in sortie.participantSortie %}
+                            {% if app.user !=  inscrit  %}
+                                <a href="{{ path('app_sortie_follow', {'id': sortie.id}) }}">S'Inscrire</a>
+                            {% else %}
+                                <a href="{{ path('app_sortie_unFollow', {'id': sortie.id}) }}">Se désister</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if sortie.organisateur == app.user %}
+                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">modifier</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
                 <td colspan="9">Sortie non enregistrée</td>
-            </tr>
-        {% endfor %}
+            </tr>{% endfor %}
         </tbody>
     </table>
+</div>
 
     <a href="{{ path('app_sortie_new', {'id': app.user.id}) }}">Créer nouvelle sortie</a>
 {% endblock %}

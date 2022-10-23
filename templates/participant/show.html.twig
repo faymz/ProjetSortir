@@ -38,9 +38,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_participant_index') }}">back to list</a>
 
-    <a href="{{ path('app_participant_edit', {'id': participant.id}) }}">edit</a>
-
-    {{ include('participant/_delete_form.html.twig') }}
+    {% if participant.id == app.user.id %}
+        <a href="{{ path('app_participant_edit', {'id': participant.id}) }}">Modifier</a>
+    {% endif %}
+    <a href="{{ path('app_participant_index') }}">Retour Liste des Inscrits</a>
+{# {{ include('participant/_delete_form.html.twig') }} #}
 {% endblock %}

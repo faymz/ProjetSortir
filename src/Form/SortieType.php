@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -45,7 +46,7 @@ class SortieType extends AbstractType
                 'label' => 'Durée : ',
                 'html5' => true,
                 'widget' => 'single_text'
-            ] )
+            ])
             ->add('infosSortie', textareaType::class, [
                 'label' => 'Description et infos : '
             ])
@@ -53,12 +54,34 @@ class SortieType extends AbstractType
                 'class' => Ville::class,
                 'label' => "Ville :",
                 'placeholder' => '--- Sélectionner ---',
-                'choice_label' => 'nom'
+                'choice_label' => 'nom',
+                'query_builder' => function (VilleRepository $villeRepository){
+                    return $villeRepository->createQueryBuilder('v')->orderBy('v.nom', 'ASC');
+                },
             ])
             ->add('lieu', ChoiceType::class, [
                 'placeholder' => 'lieu [choisir une ville]'
             ])
+            ->add('rue', TextType::class, [
+                'mapped' => false,
+                'label' => 'Rue : ',
+                'data' => ''
+            ])
+            ->add('codePostal', NumberType::class, [
+                'mapped' => false,
+                'label' => 'Code postal : ',
 
+            ])
+            ->add('latitude', TextType::class, [
+                'mapped' => false,
+                'label' => 'Latitude : ',
+                'data' => ''
+            ])
+            ->add('longitude', TextType::class, [
+                'mapped' => false,
+                'label' => 'Longitude : ',
+                'data' => ''
+            ])
         ;
 
         $formModifier = function (FormInterface $form, Ville $ville = null){
@@ -69,7 +92,7 @@ class SortieType extends AbstractType
                 'choice_label' => 'nom',
                 'placeholder' => 'lieu [choisir une ville]',
                 'label' => "Lieu : "
-            ]);
+                ]);
         };
 
         $builder->get('ville')->addEventListener(

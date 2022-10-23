@@ -1,18 +1,41 @@
-<nav>
-    <div>
-        <img src="" alt="">
-    </div>
-    <div>
-        <ul>
-            <li><a href="{{ path('main_home') }}">accueil</a></li>
-            <li><a href="{{ path('app_ville_index') }}">Ville</a></li>
-            <li><a href="{{ path('app_campus_index') }}">Campus</a></li>
-            {% if app.user %}
-                <li><a href="{{ path('app_participant_show', {'id': app.user.id }) }}">Mon profil</a></li>
-                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
-            {% else %}
-                <li><a href="{{ path('app_login') }}">Connexion</a></li>
-            {% endif %}
-        </ul>
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('ressources/Corpo/sortir-Com.png') }}" alt="Bouge de ton Campus avec ENI"
+                 width="210" height="110" class="d-inline-block align-text-top"
+            >
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ path('app_sortie_index') }}">accueil</a>
+                        </li>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_ville_index') }}">Ville</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_campus_index') }}">Campus</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_participant_show', {'id': app.user.id }) }}">Profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ path('main_home') }}">accueil</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>

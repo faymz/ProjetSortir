@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,10 +34,12 @@ class ParticipantController extends AbstractController
     {
         $participant = new Participant();
         $form = $this->createForm(ParticipantType::class, $participant);
+        $participant->setRoles(['ROLE_USER']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $participantRepository->add($participant, true);
+            $this->addFlash('success', 'Merci de vous être inscrit !');
 
             return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -57,11 +61,17 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_participant_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="app_participant_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      */
-    public function edit(Request $request, Participant $participant, ParticipantRepository $participantRepository): Response
+    public function edit(Request $request, Participant $participant,
+                         ParticipantRepository $participantRepository,
+                            EntityManagerInterface $em): Response
     {
+        if(!$participant){
+            throw $this->createNotFoundException('Utilisateur Inconnu!');
+        }
         $form = $this->createForm(ParticipantType::class, $participant);
+        $participant->setRoles(['ROLE_USER']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -73,7 +83,9 @@ class ParticipantController extends AbstractController
                 $participant->setimage($newFilename);
             }
             $participantRepository->add($participant, true);
-
+            $em->persist($participant);
+            $em->flush();
+            $this->addFlash('succes', 'profil Modifié avec succès');
             return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
         }
 

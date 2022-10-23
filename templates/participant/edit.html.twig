@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Edit Participant{% endblock %}
 
 {% block body %}
     <h1>Edit Participant</h1>
     <img src="{{ asset('ressources/imgProfil/' ~ participant.image) }}" alt="{{ participant.image }}">
-    {{ include('participant/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('participant/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
     <a href="{{ path('app_participant_index') }}">back to list</a>
 
-    {{ include('participant/_delete_form.html.twig') }}
+    {# {{ include('participant/_delete_form.html.twig') }} #}
 {% endblock %}

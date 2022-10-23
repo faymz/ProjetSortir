@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Entity\Participant;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +40,7 @@ class SortieController extends AbstractController
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
         $sortie->setOrganisateur($particiCrea);
+        $sortie->addParticipant($particiCrea);
         $sortie->setSiteOrganisateur($particiCrea->getCampus());
         $sortie->setEtat($etatSortie);
 
@@ -58,8 +61,53 @@ class SortieController extends AbstractController
      */
     public function show(Sortie $sortie): Response
     {
+        if(!$sortie){
+            throw $this->createNotFoundException('Sortie Inconnu!');
+        }
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+        ]);
+    }
+
+    /**
+     * @Route("/follow/{id}", name="app_sortie_follow")
+     */
+    public function follow(Sortie $sortie,SortieRepository $sortieRepository,
+                            EntityManagerInterface $em
+    ): Response
+    {
+        if(!$sortie){
+            throw $this->createNotFoundException('Sortie Inconnu!');
+        }
+        $participant= $this->getUser();
+        dump($participant);
+        $sortie->addParticipant($participant);
+        dump($sortie);
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash('success', 'Vous etes inscrit à la Sortie!');
+        return $this->render('sortie/index.html.twig', [
+        'sorties' => $sortieRepository->findAll(),
+    ]);
+
+    }
+
+    /**
+     * @Route("/unFollow/{id}", name="app_sortie_unFollow")
+     */
+    public function unFollow(SortieRepository $sortieRepository, Sortie $sortie,
+                           EntityManagerInterface $em): Response
+    {
+        if (!$sortie) {
+            throw $this->createNotFoundException('Sortie Inconnu!');
+        }
+        $participant= $this->getUser();
+        $sortie->removeParticipant($participant);
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash('success', 'Vous êtes désinscrits à la Sortie!');
+        return $this->render('sortie/index.html.twig', [
+            'sorties' => $sortieRepository->findAll(),
         ]);
     }
 

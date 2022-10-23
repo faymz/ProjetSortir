@@ -32,7 +32,7 @@ class ParticipantType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
                 'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
+                'required' => false,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation'],
                 'mapped' => false,
@@ -62,15 +62,12 @@ class ParticipantType extends AbstractType
                 'constraints' => new NotBlank()
 
             ])
-            //->add('actif')
-            //->add('administrateur')
             ->add('image', fileType::class, [
                 'mapped' => false,
+                'required' => false,
                 'constraints' => [ new Image( ["mimeTypesMessage" => "Le format de fichier n'est pas autorisé."])
                 ]
             ])
-
-            //->add('inscrit')
         ;
     }
 

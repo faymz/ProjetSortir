@@ -49,8 +49,6 @@ class Sortie
      */
     private $infosSortie;
 
-    private $ville;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -58,8 +56,9 @@ class Sortie
 
     /**
      * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="inscrit")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $participants;
+    private $participantSortie;
 
     /**
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sorties")
@@ -79,15 +78,25 @@ class Sortie
      */
     private $etat;
 
+    private $ville;
+
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
 
+    private $rue;
+
+    private $codePostale;
+
+    private $Latitude;
+
+    private $longitude;
+
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->participantSortie = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,15 +191,15 @@ class Sortie
     /**
      * @return Collection<int, Participant>
      */
-    public function getParticipants(): Collection
+    public function getParticipantSortie(): Collection
     {
-        return $this->participants;
+        return $this->participantSortie;
     }
 
     public function addParticipant(Participant $participant): self
     {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
+        if (!$this->participantSortie->contains($participant)) {
+            $this->participantSortie[] = $participant;
             $participant->addInscrit($this);
         }
 
@@ -199,7 +208,7 @@ class Sortie
 
     public function removeParticipant(Participant $participant): self
     {
-        if ($this->participants->removeElement($participant)) {
+        if ($this->participantSortie->removeElement($participant)) {
             $participant->removeInscrit($this);
         }
 
