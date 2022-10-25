@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Form\AnnulationSortieType;
 use App\Form\SortieType;
 use App\Entity\Participant;
 use App\Repository\EtatRepository;
@@ -142,4 +144,27 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/cancel/{id}", name="app_sortie_cancel", methods={"GET", "POST"})
+     */
+    public function cancel(Request $request, Sortie $sortie, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
+    {
+        $etat = $etatRepository->find(5);
+        $formCancel = $this->createForm(AnnulationSortieType::class, $sortie);
+        $formCancel->handleRequest($request);
+        $sortie->setEtat($etat);
+        if ($formCancel->isSubmitted()) {
+            $sortieRepository->add($sortie, true);
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('sortie/cancel.html.twig', [
+            'sortie' => $sortie,
+            'formCancel' => $formCancel
+        ]);
+    }
+
+
+
 }

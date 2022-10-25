@@ -5,7 +5,7 @@
 {% block body %}
     <h1>modifier la Sortie</h1>
 
-    {{ include('sortie/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    {{ include('sortie/_form.html.twig') }}
 
     <a href="{{ path('app_sortie_index') }}">Retour à la liste de sorties</a>
 

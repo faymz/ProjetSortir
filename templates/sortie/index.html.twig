@@ -48,6 +48,7 @@
                                     {% set present = true %}
                                 {% endif %}
                             {% endfor %}
+                        {% if sortie.dateLimiteInscription|date("Y/m/d") > "now"|date("Y/m/d", "Europe/Paris") or sortie.etat.libelle == "Passée" or sortie.etat.libelle == "Annulée"  %}
                             {% if present == true %}
                                 <a href="{{ path('app_sortie_unFollow', {'id': sortie.id}) }}">Se désister</a>
                             {% else %}
@@ -56,6 +57,7 @@
                         {% endif %}
                         {% if sortie.organisateur == app.user %}
                             <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">modifier</a>
+                        {% endif %}
                         {% endif %}
                     </td>
                 </tr>
