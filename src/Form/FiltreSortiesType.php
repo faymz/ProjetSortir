@@ -20,7 +20,7 @@ class FiltreSortiesType extends AbstractType
         $builder
             ->add('campusFiltre', EntityType::class, [
                 'class' => Campus::class,
-                'label' => "Campus :",
+                'label' => false ,
                 'required' => false,
                 'placeholder' => '--- Sélectionner ---',
                 'choice_label' => 'nom',
@@ -29,7 +29,7 @@ class FiltreSortiesType extends AbstractType
                 }
             ])
             ->add('motCle', TextType::class, [
-                'label' => 'Le nom de la sortie contient : ',
+                'label' => false ,
                 'required' => false,
                 'mapped' => false,
                 'attr' => [
@@ -37,39 +37,39 @@ class FiltreSortiesType extends AbstractType
                 ]
             ])
             ->add('dateDebutRech',DateType::class, [
-                'label' => 'Entre le : ',
+                'label' => false,
                 'required' => false,
                 'mapped' => false,
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('dateFinRech', DateType::class, [
-                'label' => 'et le : ',
+                'label' => false,
                 'required' => false,
                 'mapped' => false,
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('organisateurFiltre', CheckboxType::class, [
-                'label' => 'Sorties dont je suis l\'organisateur/trice',
+                'label' => false,
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['id' => 'organisateurFiltre']
             ])
             ->add('inscritFiltre', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je suis inscrit/e',
+                'label' => false,
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['id' => 'inscritFiltre']
             ])
             ->add('nonInscritFiltre', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
+                'label' => false,
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['id' => 'nonInscritFiltre']
             ])
             ->add('statusFiltre', CheckboxType::class, [
-                'label' => 'Sorties passées',
+                'label' => false,
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['id' => 'statusFiltre']

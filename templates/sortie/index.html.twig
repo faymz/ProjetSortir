@@ -26,6 +26,7 @@
             </thead>
             <tbody>
             {% for sortie in sorties %}
+                {% if "now"|date("Y/m/d", "Europe/Paris") < sortie.dateHeureDebut|date_modify("+1 month")|date("Y/m/d") %}
                 <tr>
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i:s') : '' }}</td>
@@ -53,23 +54,25 @@
                                     {% set present = true %}
                                 {% endif %}
                             {% endfor %}
-                        {% if sortie.dateLimiteInscription|date("Y/m/d") > "now"|date("Y/m/d", "Europe/Paris") or sortie.etat.libelle == "Passée" or sortie.etat.libelle == "Annulée"  %}
-                            {% if present == true %}
-                                <a href="{{ path('app_sortie_unFollow', {'id': sortie.id}) }}">Se désister</a>
-                            {% else %}
-                                <a href="{{ path('app_sortie_follow', {'id': sortie.id}) }}">S'Inscrire</a>
+                            {% if sortie.dateLimiteInscription|date("Y/m/d") > "now"|date("Y/m/d", "Europe/Paris") or sortie.etat.libelle == "Passée" or sortie.etat.libelle == "Annulée"  %}
+                                {% if present == true %}
+                                    <a href="{{ path('app_sortie_unFollow', {'id': sortie.id}) }}">Se désister</a>
+                                {% else %}
+                                    <a href="{{ path('app_sortie_follow', {'id': sortie.id}) }}">S'Inscrire</a>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                        {% if sortie.organisateur == app.user %}
-                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">modifier</a>
-                        {% endif %}
+                            {% if sortie.organisateur == app.user %}
+                                <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">modifier</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>
+                {% endif %}
             {% else %}
                 <tr>
                     <td colspan="9">Sortie non enregistrée</td>
-                </tr>{% endfor %}
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
         <a type="button" class="btn btn-primary"  href="{{ path('app_sortie_new', {'id': app.user.id}) }}">Créer nouvelle sortie</a>

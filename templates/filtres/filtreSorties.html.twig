@@ -1,21 +1,21 @@
 {{ form_start(filtreSorties) }}
 <div class="container-fluid" id="filtreSorties">
     <div class="container-fluid" id="typeFiltre">
-        <div class="container" id="elementFiltre">{{ form_row(filtreSorties.campusFiltre) }}</div>
-        <div class="container" id="elementFiltre">{{ form_row(filtreSorties.motCle) }}</div>
+        <div class="container" id="elementFiltre"><label>Campus : </label>{{ form_row(filtreSorties.campusFiltre) }}</div>
+        <div class="container" id="elementFiltre"><label>Le nom de la sortie contient : </label>{{ form_row(filtreSorties.motCle) }}</div>
         <div class="container-fluid" id="elementFiltre">
-            <div class="container-fluid">{{ form_row(filtreSorties.dateDebutRech) }}</div>
-            <div class="container-fluid">{{ form_row(filtreSorties.dateFinRech) }}</div>
+            <div class="container-fluid" id="timeFiltre"><label>Entre le : </label>{{ form_row(filtreSorties.dateDebutRech) }}</div>
+            <div class="container-fluid" id="timeFiltre"><label>et le : </label>{{ form_row(filtreSorties.dateFinRech) }}</div>
         </div>
     </div>
     <div class="container-fluid" id="checkFiltre">
-        {{ form_row(filtreSorties.organisateurFiltre) }}
-        {{ form_row(filtreSorties.inscritFiltre) }}
-        {{ form_row(filtreSorties.nonInscritFiltre) }}
-        {{ form_row(filtreSorties.statusFiltre) }}
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.organisateurFiltre) }}<label>Sorties dont je suis l\'organisateur/trice</label></div>
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.inscritFiltre) }}<label>Sorties auxquelles je suis inscrit/e</label></div>
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.nonInscritFiltre) }}<label>Sorties auxquelles je ne suis pas inscrit/e</label></div>
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.statusFiltre) }}<label>Sorties passées</label></div>
     </div>
     <div class="container-fluid" id="btnFiltre">
-        <button type="submit" class="btn" >Rechercher</button>
+        <button type="submit" class="btn btn-primary" id="btnFilter">Rechercher</button>
     </div>
 </div>
 {{ form_end(filtreSorties) }}

@@ -75,11 +75,14 @@ class SortieController extends AbstractController
      */
     public function show(Sortie $sortie): Response
     {
+        $listParticip = $sortie->getParticipantSortie();
+        dump($listParticip);
         if(!$sortie){
             throw $this->createNotFoundException('Sortie Inconnu!');
         }
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'listParticip' => $listParticip
         ]);
     }
 
