@@ -17,3 +17,44 @@ footer {
     bottom:0;
     width:100%;
 }
+
+#filtreSorties {
+    display: flex;
+    justify-content: center;
+    border: 2px blue solid;
+}
+
+#titreFiltre {
+    display: flex;
+    justify-content: left;
+}
+
+#checkFiltre {
+    padding: 5px;
+   /* border: 2px greenyellow solid; */
+}
+
+#btnFiltre {
+    padding: 5px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   /* border: 2px yellow solid; */
+}
+
+#typeFiltre {
+    padding: 5px;
+    /* border: 2px red solid; */
+    font-size: smaller;
+    display: flex;
+    flex-direction: column;
+}
+
+#elementFiltre {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    }
+

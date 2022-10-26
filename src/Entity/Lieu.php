@@ -154,4 +154,5 @@ class Lieu
     {
         return $this->getNom();
     }
+
 }

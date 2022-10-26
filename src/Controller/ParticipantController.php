@@ -71,7 +71,6 @@ class ParticipantController extends AbstractController
             throw $this->createNotFoundException('Utilisateur Inconnu!');
         }
         $form = $this->createForm(ParticipantType::class, $participant);
-        $participant->setRoles(['ROLE_USER']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -1,0 +1,21 @@
+{{ form_start(filtreSorties) }}
+<div class="container-fluid" id="filtreSorties">
+    <div class="container-fluid" id="typeFiltre">
+        <div class="container" id="elementFiltre">{{ form_row(filtreSorties.campusFiltre) }}</div>
+        <div class="container" id="elementFiltre">{{ form_row(filtreSorties.motCle) }}</div>
+        <div class="container-fluid" id="elementFiltre">
+            <div class="container-fluid">{{ form_row(filtreSorties.dateDebutRech) }}</div>
+            <div class="container-fluid">{{ form_row(filtreSorties.dateFinRech) }}</div>
+        </div>
+    </div>
+    <div class="container-fluid" id="checkFiltre">
+        {{ form_row(filtreSorties.organisateurFiltre) }}
+        {{ form_row(filtreSorties.inscritFiltre) }}
+        {{ form_row(filtreSorties.nonInscritFiltre) }}
+        {{ form_row(filtreSorties.statusFiltre) }}
+    </div>
+    <div class="container-fluid" id="btnFiltre">
+        <button type="submit" class="btn" >Rechercher</button>
+    </div>
+</div>
+{{ form_end(filtreSorties) }}

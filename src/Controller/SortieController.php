@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
+use App\Entity\FiltreSorties;
 use App\Entity\Sortie;
 use App\Form\AnnulationSortieType;
+use App\Form\FiltreSortiesType;
 use App\Form\SortieType;
-use App\Entity\Participant;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
@@ -22,12 +22,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/", name="app_sortie_index", methods={"GET"})
+     * @Route("/", name="app_sortie_index", methods={"GET", "POST"})
      */
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(Request $request, SortieRepository $sortieRepository): Response
     {
-        return $this->render('sortie/index.html.twig', [
+        $filtres = new FiltreSorties();
+        $form = $this->createForm(FiltreSortiesType::class, $filtres);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $sorties = $sortieRepository->findFiltreSorties($filtres);
+            return $this->renderForm('sortie/index.html.twig', [
+                'sorties' => $sorties,
+                'filtreSorties' => $form
+                ]);
+        }
+
+        return $this->renderForm('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
+            'filtreSorties' => $form
         ]);
     }
 
@@ -82,15 +94,11 @@ class SortieController extends AbstractController
             throw $this->createNotFoundException('Sortie Inconnu!');
         }
         $participant= $this->getUser();
-        dump($participant);
         $sortie->addParticipant($participant);
-        dump($sortie);
         $em->persist($sortie);
         $em->flush();
         $this->addFlash('success', 'Vous etes inscrit à la Sortie!');
-        return $this->render('sortie/index.html.twig', [
-        'sorties' => $sortieRepository->findAll(),
-    ]);
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
 
     }
 
@@ -108,9 +116,7 @@ class SortieController extends AbstractController
         $em->persist($sortie);
         $em->flush();
         $this->addFlash('success', 'Vous êtes désinscrits à la Sortie!');
-        return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
-        ]);
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
     /**

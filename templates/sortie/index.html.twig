@@ -4,7 +4,12 @@
 
 {% block body %}
     <h1>liste des sorties</h1>
-
+    <div class="container-fluid" id="titreFiltre">
+        <h5>Filtrer les sorties</h5>
+    </div>
+    <div class="container-fluid" id="Filtre">
+        {% include('filtres/filtreSorties.html.twig') %}
+    </div>
     <div id="tableauListeSorties">
         <table class="table-sm">
             <thead>

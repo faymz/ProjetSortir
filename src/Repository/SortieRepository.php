@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\FiltreSorties;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,6 +42,62 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param FiltreSorties $filtreSorties
+     * @return Paginator
+     */
+    public function findFiltreSorties(FiltreSorties $filtreSorties): Paginator
+    {
+        $qBuilder = $this->createQueryBuilder('s');
+        $qBuilder
+            ->select('s');
+        if($filtreSorties->getCampusFiltre() != null){
+            dump($filtreSorties->getCampusFiltre());
+            $qBuilder = $qBuilder
+                ->andWhere('s.siteOrganisateur = :campusFiltre')
+                ->setParameter('campusFiltre', $filtreSorties->getCampusFiltre()->getId());
+        }
+        if($filtreSorties->getMotCle() != null){
+            dump($filtreSorties->getMotCle());
+            $qBuilder = $qBuilder
+                ->andWhere('MATCH_AGAINST(s.nom) AGAINST (:motCle boolean) >0 ')
+                ->setParameter('motCle', $filtreSorties->getMotCle());
+        }
+        if(!empty($filtreSorties->getDateDebutRech()) && ($filtreSorties->getDateFinRech())){
+            $qBuilder = $qBuilder
+                ->andWhere('s.dateHeureDebut LIKE :dateDebutRech AND s.dateHeureDebut LIKE :dateDebutRech')
+                ->setParameter('dateDebutRech', $filtreSorties->getDateDebutRech())
+                ->setParameter('dateFinRech', $filtreSorties->getDateFinRech());;
+        }
+        if(!empty($filtreSorties->getOrganisateurSortie())){
+            $qBuilder = $qBuilder
+                ->andWhere('s.campusId LIKE :campusFiltre')
+                ->setParameter();
+
+        }
+        if(!empty($filtreSorties->getInscrit())){
+            $qBuilder = $qBuilder
+                ->andWhere('s.campusId LIKE :campusFiltre')
+            ->setParameter();
+        }
+        if(!empty($filtreSorties->getNonInscrit())){
+            $qBuilder = $qBuilder
+                ->andWhere('s.campusId LIKE :campusFiltre')
+                ->setParameter();
+        }
+        if(!empty($filtreSorties->getEtatFiltre())){
+            $qBuilder = $qBuilder
+                ->andWhere('s.campusId LIKE :campusFiltre')
+                ->setParameter();
+        }
+        dump($qBuilder);
+        $query = $qBuilder->getQuery();
+        dump($query);
+        $paginator = new Paginator($query);
+        dump($paginator);
+
+        return $paginator;
+    }
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
@@ -63,4 +122,5 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }
