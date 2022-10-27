@@ -10,6 +10,8 @@ use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,16 +30,17 @@ class SortieController extends AbstractController
     {
         $filtres = new FiltreSorties();
         $form = $this->createForm(FiltreSortiesType::class, $filtres);
+        $participant = $this->getUser();
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            dump($filtres);
-            $sorties = $sortieRepository->findFiltreSorties($filtres);
-            return $this->renderForm('sortie/index.html.twig', [
-                'sorties' => $sorties,
-                'filtreSorties' => $form
+            if ($form->isSubmitted() && $form->isValid()) {
+//                dump($filtres);
+                $sorties = $sortieRepository->findFiltreSorties($filtres, $participant);
+                dump($sorties);
+                return $this->renderForm('sortie/index.html.twig', [
+                    'sorties' => $sorties,
+                    'filtreSorties' => $form
                 ]);
-        }
-
+            }
         return $this->renderForm('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
             'filtreSorties' => $form
@@ -123,7 +126,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_sortie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
+    public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);

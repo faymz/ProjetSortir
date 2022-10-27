@@ -31,7 +31,6 @@ class FiltreSortiesType extends AbstractType
             ->add('motCle', TextType::class, [
                 'label' => false ,
                 'required' => false,
-                'mapped' => false,
                 'attr' => [
                     'placeholder' => 'Rechercher'
                 ]
@@ -39,39 +38,33 @@ class FiltreSortiesType extends AbstractType
             ->add('dateDebutRech',DateType::class, [
                 'label' => false,
                 'required' => false,
-                'mapped' => false,
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('dateFinRech', DateType::class, [
                 'label' => false,
                 'required' => false,
-                'mapped' => false,
                 'html5' => true,
                 'widget' => 'single_text'
             ])
-            ->add('organisateurFiltre', CheckboxType::class, [
+            ->add('organisateurSortie', CheckboxType::class, [
                 'label' => false,
                 'required' => false,
-                'mapped' => false,
                 'attr' => ['id' => 'organisateurFiltre']
             ])
-            ->add('inscritFiltre', CheckboxType::class, [
+            ->add('inscrit', CheckboxType::class, [
                 'label' => false,
                 'required' => false,
-                'mapped' => false,
                 'attr' => ['id' => 'inscritFiltre']
             ])
-            ->add('nonInscritFiltre', CheckboxType::class, [
+            ->add('nonInscrit', CheckboxType::class, [
                 'label' => false,
                 'required' => false,
-                'mapped' => false,
                 'attr' => ['id' => 'nonInscritFiltre']
             ])
-            ->add('statusFiltre', CheckboxType::class, [
+            ->add('etatFiltre', CheckboxType::class, [
                 'label' => false,
                 'required' => false,
-                'mapped' => false,
                 'attr' => ['id' => 'statusFiltre']
             ])
 

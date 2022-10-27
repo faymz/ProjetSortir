@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Validator\Constraints\Date;
 
 class FiltreSorties
@@ -14,17 +14,17 @@ class FiltreSorties
     private $campusFiltre;
 
     /**
-     * @var string|null
+     * @var TextType
      */
     private $motCle;
 
     /**
-     * @var Date|null
+     * @var Date
      */
     private $dateDebutRech;
 
     /**
-     * @var Date|null
+     * @var Date
      */
     private $dateFinRech;
 
@@ -67,7 +67,7 @@ class FiltreSorties
     }
 
     /**
-     * @return string|null
+     * @return TextType
      */
     public function getMotCle(): ?string
     {
@@ -75,7 +75,6 @@ class FiltreSorties
     }
 
     /**
-     * @param string|null $motCle
      * @return FiltreSorties
      */
     public function setMotCle(string $motCle): FiltreSorties
@@ -84,37 +83,29 @@ class FiltreSorties
         return $this;
     }
 
-    /**
-     * @return Date|null
-     */
-    public function getDateDebutRech(): ?Date
+    public function getDateDebutRech(): ?\DateTimeInterface
     {
         return $this->dateDebutRech;
     }
 
     /**
-     * @param Date|null $dateDebutRech
      * @return FiltreSorties
      */
-    public function setDateDebutRech(Date $dateDebutRech): FiltreSorties
+    public function setDateDebutRech(?\DateTimeInterface $dateDebutRech): FiltreSorties
     {
         $this->dateDebutRech = $dateDebutRech;
         return $this;
     }
 
-    /**
-     * @return Date|null
-     */
-    public function getDateFinRech(): ?Date
+    public function getDateFinRech(): ?\DateTimeInterface
     {
         return $this->dateFinRech;
     }
 
     /**
-     * @param Date|null $dateFinRech
      * @return FiltreSorties
      */
-    public function setDateFinRech(Date $dateFinRech): FiltreSorties
+    public function setDateFinRech(?\DateTimeInterface $dateFinRech): FiltreSorties
     {
         $this->dateFinRech = $dateFinRech;
         return $this;

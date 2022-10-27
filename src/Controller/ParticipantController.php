@@ -34,7 +34,6 @@ class ParticipantController extends AbstractController
     {
         $participant = new Participant();
         $form = $this->createForm(ParticipantType::class, $participant);
-        $participant->setRoles(['ROLE_USER']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

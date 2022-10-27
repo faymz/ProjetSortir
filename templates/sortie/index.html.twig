@@ -42,7 +42,6 @@
                         {% endfor %}
                     </td>
                     <td>{{ sortie.organisateur.pseudo }}</td>
-                    <!--<td>{# {{ sortie.infosSortie }} #}</td>-->
                     <td>
                         <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
                         {% if sortie.participantSortie is empty %}
@@ -55,7 +54,7 @@
                                     {% set present = true %}
                                 {% endif %}
                             {% endfor %}
-                            {% if (sortie.dateLimiteInscription|date("Y/m/d") > "now"|date("Y/m/d", "Europe/Paris")) and ((sortie.etat.id == 1) or (sortie.etat.id == 2)) %}
+                            {% if sortie.dateLimiteInscription|date_modify("+1 day")|date("Y/m/d") > "now"|date("Y/m/d", "Europe/Paris") or sortie.etat.libelle == "Passée" or sortie.etat.libelle == "Annulée"  %}
                                 {% if present == true %}
                                     <a href="{{ path('app_sortie_unFollow', {'id': sortie.id}) }}">Se désister</a>
                                 {% else %}
@@ -71,8 +70,9 @@
                 {% endif %}
             {% else %}
                 <tr>
-                    <td colspan="9">Sortie non enregistrée</td>
-                </tr>{% endfor %}
+                    <td colspan="9">il n'existe pas de sortie avec les critères de filtrage demandés</td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
         <a type="button" class="btn btn-primary" href="{{ path('app_sortie_new', {'id': app.user.id}) }}">Créer nouvelle sortie</a>

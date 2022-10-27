@@ -86,13 +86,6 @@ class Sortie
      */
     private $lieu;
 
-    private $rue;
-
-    private $codePostale;
-
-    private $Latitude;
-
-    private $longitude;
 
     public function __construct()
     {

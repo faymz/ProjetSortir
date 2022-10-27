@@ -26,25 +26,7 @@ class SortieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $lieuRepository = LieuRepository::class;
         $builder
-//            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($lieuRepository){
-//                $ville = $event->getData()['ville'];
-//
-//                $lieu = $lieuRepository->createQueryBuilder('v')
-//                    ->andWhere('v.ville = :ville')
-//                    ->setParameter('ville', $ville)
-//                    ->orderBy('v.name', 'ASC')
-//                    ->getQuery()
-//                    ->getResult()
-//        ;
-//
-//                $event->getForm()->add('lieu', EntityType::class,[
-//                    'class' => Lieu::class,
-//                    'choice_label' => 'nom',
-//                    'choices' => $lieu
-//                ]);
-//            })
             ->add('nom', textType::class, [
                 'label' => 'Nom de sortie : '
             ])
@@ -78,8 +60,9 @@ class SortieType extends AbstractType
                     return $villeRepository->createQueryBuilder('v')->orderBy('v.nom', 'ASC');
                 },
             ])
-            ->add('lieu', ChoiceType::class, [
-                'placeholder' => 'lieu [choisir une ville]'
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'placeholder' => 'lieu [choisir une ville]',
             ])
             ->add('rue', TextType::class, [
                 'mapped' => false,

@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\FiltreSorties;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -46,55 +48,55 @@ class SortieRepository extends ServiceEntityRepository
      * @param FiltreSorties $filtreSorties
      * @return Paginator
      */
-    public function findFiltreSorties(FiltreSorties $filtreSorties): Paginator
+    public function findFiltreSorties(FiltreSorties $filtreSorties, Participant $participant): Paginator
     {
         dump($filtreSorties);
         $qBuilder = $this->createQueryBuilder('s');
         $qBuilder
             ->select('s');
-        if($filtreSorties->getCampusFiltre() != ''){
+        if($filtreSorties->getCampusFiltre() != null){
             $qBuilder = $qBuilder
                 ->andWhere('s.siteOrganisateur = :campusFiltre')
                 ->setParameter('campusFiltre', $filtreSorties->getCampusFiltre()->getId());
         }
-        if($filtreSorties->getMotCle() != ''){
+        if($filtreSorties->getMotCle() != null){
             $qBuilder = $qBuilder
-                ->andWhere('MATCH (s.nom) AGAINST :motCle')
-                ->setParameter('motCle', $filtreSorties->getMotCle());
+                //(:search BOOLEAN) > 0
+                ->andWhere('s.nom LIKE :motCle')
+                ->setParameter('motCle', "%{$filtreSorties->getMotCle()}%");
         }
-        if(!empty($filtreSorties->getDateDebutRech()) && ($filtreSorties->getDateFinRech())){
+        if($filtreSorties->getDateDebutRech() != null && $filtreSorties->getDateFinRech() != null){
             $qBuilder = $qBuilder
-                ->andWhere('s.dateHeureDebut LIKE :dateDebutRech AND s.dateHeureDebut LIKE :dateDebutRech')
+                ->andWhere('s.dateHeureDebut >= :dateDebutRech')
                 ->setParameter('dateDebutRech', $filtreSorties->getDateDebutRech())
-                ->setParameter('dateFinRech', $filtreSorties->getDateFinRech());;
+                ->andWhere('s.dateHeureDebut <= :dateFinRech')
+                ->setParameter('dateFinRech', $filtreSorties->getDateFinRech());
         }
-        if(!empty($filtreSorties->getOrganisateurSortie())){
+        if($filtreSorties->getOrganisateurSortie() == 1){
             $qBuilder = $qBuilder
-                ->andWhere('s.campusId LIKE :campusFiltre')
-                ->setParameter();
+                ->andWhere('s.organisateur = :idUser')
+                ->setParameter('idUser', $participant->getId());
 
         }
-        if(!empty($filtreSorties->getInscrit())){
+        if($filtreSorties->getInscrit() == 1) {
             $qBuilder = $qBuilder
-                ->andWhere('s.campusId LIKE :campusFiltre')
-            ->setParameter();
+                ->andWhere('s.participantSortie = :idUser')
+                ->setParameter('idUser', $participant->getId());
         }
-        if(!empty($filtreSorties->getNonInscrit())){
+        if($filtreSorties->getNonInscrit() == 1){
             $qBuilder = $qBuilder
-                ->andWhere('s.campusId LIKE :campusFiltre')
-                ->setParameter();
+                ->andWhere('s.participantSortie <> :idUser')
+                ->setParameter('idUser', $participant->getId());
         }
-        if(!empty($filtreSorties->getEtatFiltre())){
+        if($filtreSorties->getEtatFiltre() == 1){
             $qBuilder = $qBuilder
-                ->andWhere('s.campusId LIKE :campusFiltre')
-                ->setParameter();
+                ->andWhere('s.etat = :etatFiltre')
+                ->setParameter('etatFiltre', 4);
         }
-        dump($qBuilder);
         $query = $qBuilder->getQuery();
-        dump($query);
+        //$sorties = $query->getResult();
+        //dump($sorties);
         $paginator = new Paginator($query);
-        dump($paginator);
-
         return $paginator;
     }
 

@@ -9,10 +9,10 @@
         </div>
     </div>
     <div class="container-fluid" id="checkFiltre">
-        <div id="checkBoxFiltres">{{ form_row(filtreSorties.organisateurFiltre) }}<label>Sorties dont je suis l'organisateur/trice</label></div>
-        <div id="checkBoxFiltres">{{ form_row(filtreSorties.inscritFiltre) }}<label>Sorties auxquelles je suis inscrit/e</label></div>
-        <div id="checkBoxFiltres">{{ form_row(filtreSorties.nonInscritFiltre) }}<label>Sorties auxquelles je ne suis pas inscrit/e</label></div>
-        <div id="checkBoxFiltres">{{ form_row(filtreSorties.statusFiltre) }}<label>Sorties passées</label></div>
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.organisateurSortie) }}<label>Sorties dont je suis l'organisateur/trice</label></div>
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.inscrit) }}<label>Sorties auxquelles je suis inscrit/e</label></div>
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.nonInscrit) }}<label>Sorties auxquelles je ne suis pas inscrit/e</label></div>
+        <div id="checkBoxFiltres">{{ form_row(filtreSorties.etatFiltre) }}<label>Sorties passées</label></div>
     </div>
     <div class="container-fluid" id="btnFiltre">
         <button type="submit" class="btn btn-primary" id="btnFilter">Rechercher</button>
