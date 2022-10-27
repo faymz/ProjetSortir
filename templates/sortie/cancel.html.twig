@@ -13,7 +13,6 @@
                 <td>{{ sortie.nom }}</td>
                 <th scope="col">Date de la sortie</th>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-
             </tr>
             </tbody>
         </table>
@@ -26,17 +25,15 @@
         <Label>Lieu : </Label>
         {{ sortie.lieu.nom }}
     </div>
-
-    {{ form_start(formCancel) }}
+        {{ form_start(formCancel) }}
     <div>
         {{ form_row(formCancel.motifAnnulation) }}
     </div>
-
-    <div>
         <button class="btn" >{{ button_label|default('Enregistrer') }}</button>
-        <button class="btn" onclick="document.location='{{ path('app_sortie_index') }}'">{{ button_label|default('Annuler') }}</button>
+        {{ form_end(formCancel) }}
+    <div>
+        <button class="btn" onclick="document.location='{{ path('app_sortie_index') }}'">{{ button_label|default('Retour à la liste sorties') }}</button>
     </div>
-    {{ form_end(formCancel) }}
 
 
 {% endblock %}

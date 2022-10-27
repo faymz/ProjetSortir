@@ -28,11 +28,13 @@
         {{ form_row(form.longitude) }}
     </div>
 
+
     <button class="btn" >{{ button_label|default('Enregistrer') }}</button>
     <!--TODO modifier la redirection du bouton publier la sortie -->
-    <button class="btn" onclick="document.location='{{ path('main_home') }}'">{{ button_label|default('Publier la sortie') }}</button>
+    <button class="btn" onclick="document.location='{{ path('app_sortie_index') }}'">{{ button_label|default('Publier la sortie') }}</button>
 {{ form_end(form) }}
-<!--{# <button class="btn" onclick="document.location='{{ path('app_sortie_cancel', {'id': sortie.id}) }}'">{{ button_label|default('Annuler') }}</button> #}-->
+    <button class="btn" onclick="document.location='{{ path('app_sortie_index') }}'">{{ button_label|default('Retour à la liste sorties') }}</button>
+
 {% block javascripts %}
     <script src="{{ asset('js/SelectVille.js') }}"></script>
 {% endblock %}

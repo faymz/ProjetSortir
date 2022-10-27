@@ -3,9 +3,10 @@
 {% block title %}Modifier Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>modifier la Sortie</h1>
+    <h1>Modifier la Sortie</h1>
 
     {{ include('sortie/_form.html.twig') }}
 
-    <a href="{{ path('app_sortie_index') }}">Retour à la liste de sorties</a>
+    <button class="btn" onclick="document.location='{{ path('app_sortie_cancel', {'id': sortie.id}) }}'">{{ button_label|default('Annuler la sortie') }}</button>
+
 {% endblock %}
