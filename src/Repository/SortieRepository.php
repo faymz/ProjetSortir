@@ -48,19 +48,18 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function findFiltreSorties(FiltreSorties $filtreSorties): Paginator
     {
+        dump($filtreSorties);
         $qBuilder = $this->createQueryBuilder('s');
         $qBuilder
             ->select('s');
-        if($filtreSorties->getCampusFiltre() != null){
-            dump($filtreSorties->getCampusFiltre());
+        if($filtreSorties->getCampusFiltre() != ''){
             $qBuilder = $qBuilder
                 ->andWhere('s.siteOrganisateur = :campusFiltre')
                 ->setParameter('campusFiltre', $filtreSorties->getCampusFiltre()->getId());
         }
-        if($filtreSorties->getMotCle() != null){
-            dump($filtreSorties->getMotCle());
+        if($filtreSorties->getMotCle() != ''){
             $qBuilder = $qBuilder
-                ->andWhere('MATCH_AGAINST(s.nom) AGAINST (:motCle boolean) >0 ')
+                ->andWhere('MATCH (s.nom) AGAINST :motCle')
                 ->setParameter('motCle', $filtreSorties->getMotCle());
         }
         if(!empty($filtreSorties->getDateDebutRech()) && ($filtreSorties->getDateFinRech())){

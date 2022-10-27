@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -25,7 +26,25 @@ class SortieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $lieuRepository = LieuRepository::class;
         $builder
+//            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($lieuRepository){
+//                $ville = $event->getData()['ville'];
+//
+//                $lieu = $lieuRepository->createQueryBuilder('v')
+//                    ->andWhere('v.ville = :ville')
+//                    ->setParameter('ville', $ville)
+//                    ->orderBy('v.name', 'ASC')
+//                    ->getQuery()
+//                    ->getResult()
+//        ;
+//
+//                $event->getForm()->add('lieu', EntityType::class,[
+//                    'class' => Lieu::class,
+//                    'choice_label' => 'nom',
+//                    'choices' => $lieu
+//                ]);
+//            })
             ->add('nom', textType::class, [
                 'label' => 'Nom de sortie : '
             ])

@@ -30,6 +30,7 @@ class SortieController extends AbstractController
         $form = $this->createForm(FiltreSortiesType::class, $filtres);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            dump($filtres);
             $sorties = $sortieRepository->findFiltreSorties($filtres);
             return $this->renderForm('sortie/index.html.twig', [
                 'sorties' => $sorties,
@@ -75,14 +76,11 @@ class SortieController extends AbstractController
      */
     public function show(Sortie $sortie): Response
     {
-        $listParticip = $sortie->getParticipantSortie();
-        dump($listParticip);
         if(!$sortie){
             throw $this->createNotFoundException('Sortie Inconnu!');
         }
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
-            'listParticip' => $listParticip
         ]);
     }
 
