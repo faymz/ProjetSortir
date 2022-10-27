@@ -53,7 +53,8 @@ class SortieRepository extends ServiceEntityRepository
         dump($filtreSorties);
         $qBuilder = $this->createQueryBuilder('s');
         $qBuilder
-            ->select('s');
+            ->select('s')
+            ->join('s.participantSortie', 'partSort');
         if($filtreSorties->getCampusFiltre() != null){
             $qBuilder = $qBuilder
                 ->andWhere('s.siteOrganisateur = :campusFiltre')
@@ -80,12 +81,12 @@ class SortieRepository extends ServiceEntityRepository
         }
         if($filtreSorties->getInscrit() == 1) {
             $qBuilder = $qBuilder
-                ->andWhere('s.participantSortie = :idUser')
+                ->andWhere('partSort = :idUser')
                 ->setParameter('idUser', $participant->getId());
         }
         if($filtreSorties->getNonInscrit() == 1){
             $qBuilder = $qBuilder
-                ->andWhere('s.participantSortie <> :idUser')
+                ->andWhere('partSort <> :idUser')
                 ->setParameter('idUser', $participant->getId());
         }
         if($filtreSorties->getEtatFiltre() == 1){
