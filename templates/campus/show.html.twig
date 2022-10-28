@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Campus</h1>
-
+    <div>
     <table class="table">
         <tbody>
             <tr>
@@ -17,10 +17,13 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_campus_index') }}">back to list</a>
-
-    <a href="{{ path('app_campus_edit', {'id': campus.id}) }}">edit</a>
+    </div>
+    <div id="btnCreer">
+        <a type="button" class="btn btn-primary" href="{{ path('app_campus_edit', {'id': campus.id}) }}">Modifier</a>
+    </div>
+    <div id="btnCreer">
+        <a type="button" class="btn btn-primary" href="{{ path('app_campus_index') }}">retour à la liste des Campus</a>
+    </div>
 
     {{ include('campus/_delete_form.html.twig') }}
 {% endblock %}

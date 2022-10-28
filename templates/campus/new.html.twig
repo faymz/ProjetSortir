@@ -7,5 +7,7 @@
 
     {{ include('campus/_form.html.twig') }}
 
-    <a href="{{ path('app_campus_index') }}">back to list</a>
+    <div>
+        <a type="button" class="btn btn-primary" href="{{ path('app_campus_index') }}">Retour à la liste des Campus</a>
+    </div>
 {% endblock %}

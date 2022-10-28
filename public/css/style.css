@@ -2,6 +2,7 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #00fffd;
 }
 #body {
     display: flex;
@@ -70,4 +71,26 @@ footer {
      display: flex;
      justify-content: center;
      align-items: center;
+ }
+
+ #inscription {
+     display: flex;
+     justify-content: center;
+     align-content: center;
+ }
+
+ #btnCreer {
+     display: flex;
+     justify-content: center;
+     align-content: center;
+     margin-top: 5px;
+     margin-bottom: 5px;
+ }
+
+ #showVille {
+     display: flex;
+ }
+
+ #creerLieu {
+     display: flex;
  }

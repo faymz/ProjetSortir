@@ -7,5 +7,7 @@
 
     {{ include('ville/_form.html.twig') }}
 
-    <a href="{{ path('app_ville_index') }}">Retour à la liste</a>
+    <div id="btnCreer">
+        <a type="button" class="btn btn-primary" href="{{ path('app_ville_index') }}">Retour à la liste des Villes</a>
+    </div>
 {% endblock %}

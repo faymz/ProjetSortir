@@ -3,35 +3,37 @@
 {% block title %}Ville | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Gèrer les villes </h1>
+    <h1>Liste des villes </h1>
 
-    <h3>Filtrer les villes</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>CodePostal</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ville in villes %}
-            <tr>
-                <td>{{ ville.nom }}</td>
-                <td>{{ ville.codePostal }}</td>
-                <td>
-                    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">modifier</a>
-                    -
-                    <a href="{{ path('app_ville_delete', {'id': ville.id}) }}">supprimer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Echec d'enregistrement</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_ville_new') }}">Créer une nouvelle ville</a>
+    <div id="showVille">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>CodePostal</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ville in villes %}
+                <tr>
+                    <td>{{ ville.nom }}</td>
+                    <td>{{ ville.codePostal }}</td>
+                    <td>
+                        <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">modifier</a>
+                        -
+                        <a href="{{ path('app_ville_delete', {'id': ville.id}) }}">supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Echec d'enregistrement</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id="btnCreer">
+        <a type="button" class="btn btn-primary" href="{{ path('app_ville_new') }}">Créer une nouvelle ville</a>
+    </div>
 {% endblock %}

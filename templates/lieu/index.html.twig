@@ -35,6 +35,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_lieu_new') }}">Créer un nouveau lieu</a>
+    <div id="btnCreer">
+    <a type="button" class="btn btn-primary" href="{{ path('app_lieu_new') }}">Créer un nouveau lieu</a>
+    </div>
 {% endblock %}

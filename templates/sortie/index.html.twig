@@ -37,7 +37,7 @@
                     <td>
                         {% for inscrit in sortie.participantSortie %}
                             {% if app.user ==  inscrit  %}
-                            <p>X</p>
+                            <div id="inscription"> X </div>
                             {% endif %}
                         {% endfor %}
                     </td>
@@ -75,6 +75,8 @@
             {% endfor %}
             </tbody>
         </table>
-        <a type="button" class="btn btn-primary" href="{{ path('app_sortie_new', {'id': app.user.id}) }}">Créer nouvelle sortie</a>
+        <div id="btnCreer">
+            <a type="button" class="btn btn-primary" href="{{ path('app_sortie_new', {'id': app.user.id}) }}">Créer nouvelle sortie</a>
+        </div>
     </div>
 {% endblock %}
